@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Encrypt.iml" filepath="$PROJECT_DIR$/Encrypt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RemoveRepeat.iml" filepath="$PROJECT_DIR$/RemoveRepeat.iml" />
     </modules>
   </component>
 </project>
