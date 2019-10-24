@@ -7,7 +7,8 @@ from openpyxl import load_workbook
 
 total = 0
 runningAvg = 0
-count = 0
+count = 1
+loss = 0
 
 if not path.exists("Log.xlsx"):
     book = Workbook()
@@ -24,26 +25,35 @@ sheet = book.active
 
 
 while True:
-    count = count + 1
+    
     data = []
     time = str(datetime.datetime.now())
     data.append(time)
-    ping = subprocess.Popen("ping google.com -n 1", stdout=subprocess.PIPE)
-    output = ping.communicate()
-    output = str(output)
-    timems = output.find("time=")
-    timemsend = output.find("ms", timems, timems + 14)
-    timems = output[timems+5:timemsend+2]
-    timemsint = timems[0:len(timems) - 2]
-    timemsint = float(timemsint)
-    print("Timemsint: "+str(timemsint))
-    print(timems)
-    total = total + timemsint
-    runningAvg = total / count
-    print("Average: "+str(runningAvg)+"ms")
-    data.append(timemsint)
-    data.append(runningAvg)
-    sheet.append(data)
+    try:
+        ping = subprocess.Popen("ping google.com -n 1", stdout=subprocess.PIPE)
+        output = ping.communicate()
+        output = str(output)
+        timems = output.find("time=")
+        timemsend = output.find("ms", timems, timems + 14)
+        timems = output[timems+5:timemsend+2]
+        timemsint = timems[0:len(timems) - 2]
+        timemsint = float(timemsint)
+        total = total + timemsint
+        runningAvg = total / count
+        print("Average: "+str(runningAvg)+"ms")
+        data.append(timemsint)
+        data.append(runningAvg)
+        sheet.append(data)
+        count = count + 1
+    except:
+        print("No response from host")
+        loss = loss + 1
+
+
+    
+    
+    
+
     book.save(filename = "Log.xlsx")
 
 
